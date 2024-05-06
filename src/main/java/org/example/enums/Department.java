@@ -1,0 +1,24 @@
+package org.example.enums;
+
+public enum Department {
+    COMPUTER_SCIENCE,
+    ELECTRICAL_ENGINEERING,
+    MECHANICAL_ENGINEERING,
+    CIVIL_ENGINEERING,
+    CHEMICAL_ENGINEERING,
+    BIOLOGY,
+    PHYSICS,
+    MATHEMATICS,
+    HISTORY,
+    LITERATURE,
+    LANGUAGE_STUDIES,
+    PSYCHOLOGY,
+    SOCIOLOGY,
+    ECONOMICS,
+    BUSINESS,
+    LAW,
+    MEDICINE,
+    ART,
+    MUSIC,
+    OTHER
+}
