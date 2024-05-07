@@ -32,7 +32,7 @@ public class UserRepositoryImpl extends BaseRepositoryImpl<User, Long> implement
     @Override
     public UserTypes getUserType(Long id) {
         Session session = SessionFactorySingleton.getInstance().openSession();
-        Query<String> query = session.createQuery("SELECT u.user_type FROM User u WHERE u.id = :id", String.class);
+        Query<String> query = session.createQuery("SELECT userTypes FROM User u WHERE u.id = :id", String.class);
         query.setParameter("id", id);
         String userType = query.uniqueResult();
         session.close();
