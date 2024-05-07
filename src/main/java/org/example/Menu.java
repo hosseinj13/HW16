@@ -21,10 +21,12 @@ import org.example.util.validation.PhoneNumberValidator;
 import org.hibernate.LazyInitializationException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import static org.example.util.ApplicationContext.*;
 
 public class Menu {
@@ -39,36 +41,6 @@ public class Menu {
 
 
     private final Scanner scanner = new Scanner(System.in);
-
-    public static void main(String[] args) throws Exception {
-
-        try {
-            SecurityContextSample securityContext = new SecurityContextSample();
-            User user = new User("hossein", "javadi", "989197033530", "hosseinj13@yahoo.com", "0510028977", "hosseinj13", "h1374308N@", Department.COMPUTER_SCIENCE);
-            securityContext.signUp(user);
-            getUserService().saveOrUpdate(user);
-        }catch (ConstraintViolationException e ){
-            System.out.println("(username)=(hosseinj13) already exists." + e.getMessage());
-        }
-
-      //  securityContext.login("hosseinj13", "h1374308N@");
-
-        Menu userMenu = new Menu();
-        boolean userMenuExecuted = false;
-        while (!userMenuExecuted) {
-            if (userMenu.userMenu()) {
-                userMenuExecuted = true;
-            }
-        }
-        if (userMenu.getSelectedOption() != 3) {
-            Menu menu = new Menu();
-            menu.publicMenu();
-        }
-//        Menu menu = new Menu();
-//        menu.publicMenu();
-    }
-
-
     Professor professor = new Professor();
     Employee employee = new Employee();
     Student student = new Student();
@@ -76,12 +48,14 @@ public class Menu {
     Grade grade = new Grade();
     User user = new User();
     Enrollment enrollment = new Enrollment();
+
     public int getSelectedOption() {
         Scanner scanner = new Scanner(System.in);
         int selectedOption = scanner.nextInt();
         scanner.nextLine();
         return selectedOption;
     }
+
     public int getNumberFromUser() {
         int num = 0;
         try {
@@ -93,6 +67,7 @@ public class Menu {
         }
         return num;
     }
+
     public String getStringFromUser() {
         String input = null;
         try {
@@ -102,6 +77,7 @@ public class Menu {
         }
         return input;
     }
+
     public String getEmailFromUserInput(Scanner scanner) {
         String email;
         boolean isValidEmail = false;
@@ -123,6 +99,7 @@ public class Menu {
 
         return email;
     }
+
     public String getFormattedSemester(Scanner scanner) {
         String semester = "";
         while (true) {
@@ -152,6 +129,7 @@ public class Menu {
         }
         return semester;
     }
+
     public String getPasswordFromUserInput(Scanner scanner) {
         String password;
         boolean isValidPassword = false;
@@ -168,6 +146,7 @@ public class Menu {
         } while (!isValidPassword);
         return password;
     }
+
     public String getUniqeEmployeeNumber(Scanner scanner) {
         String employeeNumber = null;
         Pattern pattern = Pattern.compile("\\d{10}");
@@ -191,6 +170,7 @@ public class Menu {
         }
         return employeeNumber;
     }
+
     public String getUniqeStudentNumber(Scanner scanner) {
         String studentNumber = null;
         Pattern pattern = Pattern.compile("\\d{10}");
@@ -214,6 +194,7 @@ public class Menu {
         }
         return studentNumber;
     }
+
     public String getUniqueProfessorNumber(Scanner scanner) {
         String professorNumber = null;
         Pattern pattern = Pattern.compile("\\d{10}");
@@ -238,6 +219,7 @@ public class Menu {
         }
         return professorNumber;
     }
+
     public String getPhoneNumberFromUserInput(Scanner scanner) {
         String phoneNumber;
         boolean isValidPhoneNumber = false;
@@ -258,6 +240,7 @@ public class Menu {
 
         return phoneNumber;
     }
+
     public ProfessorType getProfessorType(Scanner scanner) {
         ProfessorType professorType = null;
         while (true) {
@@ -272,6 +255,7 @@ public class Menu {
         }
         return professorType;
     }
+
     public int getTeachingUnits(Scanner scanner) {
         int teachingUnits = 0;
         while (true) {
@@ -287,6 +271,7 @@ public class Menu {
         }
         return teachingUnits;
     }
+
     public String getNationalCodeFromUserInput(Scanner scanner) {
         String nationalCode;
         boolean isValidNationalCode = false;
@@ -307,6 +292,7 @@ public class Menu {
 
         return nationalCode;
     }
+
     public Department getDepartmentFromUserInput(Scanner scanner) {
         Department department = null;
         while (true) {
@@ -320,6 +306,7 @@ public class Menu {
         }
         return department;
     }
+
     public CourseStatus getCourseStatusFromUserInput(Scanner scanner) {
         CourseStatus courseStatus = null;
         while (true) {
@@ -333,6 +320,7 @@ public class Menu {
         }
         return courseStatus;
     }
+
     public AcademicTerm getAcademicTermFromUserInput(Scanner scanner) {
         AcademicTerm currentTerm = null;
         while (true) {
@@ -346,6 +334,7 @@ public class Menu {
         }
         return currentTerm;
     }
+
     public double getValidPreviousGPA(Scanner scanner) {
         double previousGPA = 0.0;
         while (true) {
@@ -366,6 +355,7 @@ public class Menu {
         }
         return previousGPA;
     }
+
     public String getUniqueCourseName(Scanner scanner) {
         String courseName = null;
         boolean validInput = false;
@@ -388,6 +378,7 @@ public class Menu {
         }
         return courseName;
     }
+
     public int getValidNumberOfUnits(Scanner scanner) {
         int units = 0;
         boolean validInput = false;
@@ -411,6 +402,7 @@ public class Menu {
         }
         return units;
     }
+
     public int getValidYear(Scanner scanner) {
         int year = 0;
         boolean validInput = false;
@@ -431,6 +423,7 @@ public class Menu {
         }
         return year;
     }
+
     public double getValidGrade(Scanner scanner) {
         double grade = 0;
         boolean validGrade = false;
@@ -453,6 +446,7 @@ public class Menu {
         }
         return grade;
     }
+
     public String getUniqeUserName(Scanner scanner) {
         String username = "";
         boolean validInput = false;
@@ -478,6 +472,7 @@ public class Menu {
         }
         return username;
     }
+
     public String getValidFirstName(Scanner scanner) {
         String firstName = "";
         boolean validInput = false;
@@ -499,6 +494,7 @@ public class Menu {
         }
         return firstName;
     }
+
     public String getValidLastName(Scanner scanner) {
         String lastName = "";
         boolean validInput = false;
@@ -520,6 +516,7 @@ public class Menu {
         }
         return lastName;
     }
+
     /* public List<Course> getCourseListFromUser(Scanner scanner) {
          List<Course> courseList = new ArrayList<>();
          System.out.println("Enter course details for each course:");
@@ -570,6 +567,7 @@ public class Menu {
             return user != null;
         }
     }
+
     public boolean checkIfPhoneNumberExists(String phoneNumber) {
         try (Session session = SessionFactorySingleton.getInstance().openSession()) {
             Query<User> query = session.createQuery("SELECT u FROM User u WHERE u.phoneNumber = :phoneNumber", User.class);
@@ -578,6 +576,7 @@ public class Menu {
             return user != null;
         }
     }
+
     public boolean checkIfNationalCodeExists(String nationalCode) {
         try (Session session = SessionFactorySingleton.getInstance().openSession()) {
             Query<User> query = session.createQuery("SELECT u FROM User u WHERE u.nationalCode = :nationalCode", User.class);
@@ -586,6 +585,7 @@ public class Menu {
             return user != null;
         }
     }
+
     public boolean checkIfStudentNumberExists(String studentNumber) {
         try (Session session = SessionFactorySingleton.getInstance().openSession()) {
             Query<Student> query = session.createQuery("SELECT s FROM Student s WHERE s.studentNumber = :studentNumber", Student.class);
@@ -594,6 +594,7 @@ public class Menu {
             return student != null;
         }
     }
+
     public boolean checkIfEmployeeNumberExists(String employeeNumber) {
         try (Session session = SessionFactorySingleton.getInstance().openSession()) {
             Query<Employee> query = session.createQuery("SELECT e FROM Employee e WHERE e.employeeNumber = :employeeNumber", Employee.class);
@@ -602,6 +603,7 @@ public class Menu {
             return employee != null;
         }
     }
+
     public boolean checkIfProfessorNumberExists(String professorNumber) {
         try (Session session = SessionFactorySingleton.getInstance().openSession()) {
             Query<Professor> query = session.createQuery("SELECT p FROM Professor p WHERE p.professorNumber = :professorNumber", Professor.class);
@@ -610,7 +612,8 @@ public class Menu {
             return professor != null;
         }
     }
-    public boolean checkUserNameExists(String username) {
+
+    public static boolean checkUserNameExists(String username) {
         try (Session session = SessionFactorySingleton.getInstance().openSession()) {
             Query<User> query = session.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
             query.setParameter("username", username);
@@ -618,6 +621,7 @@ public class Menu {
             return user != null;
         }
     }
+
     public boolean checkIfCourseNameExists(String courseName) {
         try (Session session = SessionFactorySingleton.getInstance().openSession()) {
             Query<Course> query = session.createQuery("SELECT c FROM Course c WHERE c.courseName = :courseName", Course.class);
@@ -626,6 +630,38 @@ public class Menu {
             return course != null;
         }
     }
+
+    public static void main(String[] args) throws Exception {
+
+        try {
+            SecurityContextSample securityContext = new SecurityContextSample();
+            if (!checkUserNameExists("hosseinj13")) {
+                User user = new User("hossein", "javadi", "989197033530", "hosseinj13@yahoo.com", "0510028977", "hosseinj13", "h1374308N@", Department.COMPUTER_SCIENCE);
+                securityContext.signUp(user);
+                getUserService().saveOrUpdate(user);
+            } else {
+                System.out.println("User already exists.");
+            }
+        } catch (ConstraintViolationException e) {
+            System.out.println("(username)=(hosseinj13) already exists." + e.getMessage());
+        }
+        //  securityContext.login("hosseinj13", "h1374308N@");
+
+        Menu userMenu = new Menu();
+        boolean userMenuExecuted = false;
+        while (!userMenuExecuted) {
+            if (userMenu.userMenu()) {
+                userMenuExecuted = true;
+            }
+        }
+        if (userMenu.getSelectedOption() != 3) {
+            Menu menu = new Menu();
+            menu.publicMenu();
+        }
+//        Menu menu = new Menu();
+//        menu.publicMenu();
+    }
+
     public void signup() throws Exception {
         do {
             String username = getUniqeUserName(scanner);
@@ -642,6 +678,7 @@ public class Menu {
             System.out.println("User registration successful!");
         } while (userMenu());
     }
+
     public void signIn() throws Exception {
         Scanner scanner = new Scanner(System.in);
         do {
@@ -662,13 +699,14 @@ public class Menu {
             }
         } while (true);
     }
+
     public boolean userMenu() throws Exception {
         Scanner scanner = new Scanner(System.in);
         boolean validInput = false;
         while (!validInput) {
             System.out.println("********** Welcome to the Educational System **********");
             System.out.println("***************** USER AUTHENTICATION *****************");
-          //  System.out.println("1-SIGN UP");
+            //  System.out.println("1-SIGN UP");
             System.out.println("1-SIGN IN");
             System.out.println("2-EXIT");
             System.out.println("Choose your number: ");
@@ -703,21 +741,21 @@ public class Menu {
 
 
     private boolean isEmployee(Long id) {
-        String userType = userService.getUserType(id);
-        return  userType.equals(UserTypes.EMPLOYEE.name());
+        UserTypes userType = userService.getUserType(id);
+        return userType.equals(UserTypes.EMPLOYEE);
     }
 
     private boolean isStudent(Long id) {
-        String userType = userService.getUserType(id);
-        return  userType.equals(UserTypes.STUDENT.name());
+        UserTypes userType = userService.getUserType(id);
+        return userType.equals(UserTypes.STUDENT);
     }
 
     private boolean isProfessor(long id) {
-        String userType = userService.getUserType(id);
-        return  userType.equals(UserTypes.PROFESSOR.name());
+        UserTypes userType = userService.getUserType(id);
+        return userType.equals(UserTypes.PROFESSOR);
     }
 
-    public boolean publicMenu() throws Exception {
+    public void publicMenu() throws Exception {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         while (true) {
@@ -748,7 +786,8 @@ public class Menu {
                         break;
                     case 4:
                         System.out.println("Exiting...");
-                        return userMenu();
+                        userMenu();
+                        return;
                     default:
                         System.out.println("Invalid choice. Please try again.");
                 }
@@ -864,6 +903,7 @@ public class Menu {
             }
         }
     }
+
     public void loginAsStudent() {
         Scanner scanner = new Scanner(System.in);
         List<Course> enrolledCourses = new ArrayList<>();
@@ -894,7 +934,7 @@ public class Menu {
                     case 2:
                         // View enrolled courses
                         try {
-                           displayEnrolledCourses();
+                            displayEnrolledCourses();
                             //System.out.println(displayEnrollments());
                         } catch (LazyInitializationException e) {
                             System.out.println("An error occurred: " + e.getMessage());
@@ -927,6 +967,7 @@ public class Menu {
             }
         }
     }
+
     public void loginAsProfessor() {
         Scanner scanner = new Scanner(System.in);
 
@@ -980,6 +1021,7 @@ public class Menu {
             }
         }
     }
+
     /* public static Student createStudent() {
          Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
          Student student = null;
@@ -1112,6 +1154,7 @@ public class Menu {
             System.out.println("An error occurred: " + e.getMessage());
         }
     }
+
     /*public void displayCoursesMenu(Student student) {
         // Retrieve enrolled, passed, and available courses for the student
         List<Course> enrolledCourses = enrollmentService.getEnrolledCourses(student);
@@ -1141,7 +1184,8 @@ public class Menu {
         }
         return enrollments;
     }
-//    public List<Course> showAllCourses() {
+
+    //    public List<Course> showAllCourses() {
 //        List<Course> courses = enrollmentService.findEnrolledCoursesByStudent(student);
 //        return courses;
 //    }
@@ -1219,6 +1263,7 @@ public class Menu {
             System.out.println("An error occurred: " + e.getMessage());
         }
     }
+
     public void createEmployee() {
 
         System.out.println("Create a new employee:");
@@ -1257,6 +1302,7 @@ public class Menu {
             System.out.println("An error occurred: " + e.getMessage());
         }
     }
+
     public void updateEmployee() {
         try {
             String firstName = getValidFirstName(scanner);
@@ -1320,6 +1366,7 @@ public class Menu {
             System.out.println("An error occurred: " + e.getMessage());
         }
     }
+
     public void createProfessor() {
 
         System.out.println("Create a new professor:");
@@ -1373,6 +1420,7 @@ public class Menu {
             System.out.println("An error occurred: " + e.getMessage());
         }
     }
+
     public void updateProfessor() {
         Professor professor = null;
         try {
@@ -1465,6 +1513,7 @@ public class Menu {
             System.out.println("An error occurred: " + e.getMessage());
         }
     }
+
     public void createCourse() {
         Course course = new Course();
 
@@ -1490,6 +1539,7 @@ public class Menu {
             System.out.println("An error occurred: " + e.getMessage());
         }
     }
+
     public void updateCourse() throws Exception {
         Course course = null;
         try {
@@ -1585,7 +1635,7 @@ public class Menu {
 //        return null;
 //    }
 
-//    public void displayEnrolledCoursesWithGrades(Student student) {
+    //    public void displayEnrolledCoursesWithGrades(Student student) {
 //        List<Course> enrolledCourses = student.getEnrolledCourses();
 //
 //        if (enrolledCourses.isEmpty()) {
@@ -1609,6 +1659,7 @@ public class Menu {
         }
         return maxCredits;
     }
+
     public String displayProfessorInfo() {
         String firstName = getValidFirstName(scanner);
         String lastName = getValidLastName(scanner);
@@ -1643,6 +1694,7 @@ public class Menu {
         }
         return info.toString();
     }
+
     public String displayStudentInfo() {
         String firstName = getValidFirstName(scanner);
         String lastName = getValidLastName(scanner);
@@ -1681,6 +1733,7 @@ public class Menu {
         }
         return info.toString();
     }
+
     public void displayProfessorSalary(String semester) {
         String firstName = getValidFirstName(scanner);
         String lastName = getValidLastName(scanner);
@@ -1710,6 +1763,7 @@ public class Menu {
             System.out.println("Professor not found. " + e.getMessage());
         }
     }
+
     public String displayEmployeePayStubAndInfo() {
         String firstName = getValidFirstName(scanner);
         String lastName = getValidLastName(scanner);
@@ -1731,6 +1785,7 @@ public class Menu {
         // Return the pay stub and info as a string
         return payStubBuilder.toString();
     }
+
     public Long getCourseId() {
         course = null;
         try {
@@ -1745,6 +1800,7 @@ public class Menu {
         }
         return null;
     }
+
     public Long getStudentId() {
         student = null;
         try {
@@ -1763,6 +1819,7 @@ public class Menu {
         }
         return null;
     }
+
     public Long getProfessorId() {
         professor = null;
         try {
@@ -1781,6 +1838,7 @@ public class Menu {
         }
         return null;
     }
+
     public void registerStudentGradeByProfessor() {
 
 //        System.out.println("Info of the student whose grade is to be entered: ");
@@ -1887,6 +1945,7 @@ public class Menu {
             }
         }
     }
+
     public void enrollmentCourses() {
         Long courseId = getCourseId();
         String term = null;
@@ -1946,6 +2005,7 @@ public class Menu {
             }
         }
     }
+
     private boolean checkGPA(Long studentId, Long courseId) {
         Student student = studentService.findById(studentId);
         Course course = courseService.findById(courseId);
@@ -1960,6 +2020,7 @@ public class Menu {
         }
         return false;
     }
+
     public void displayStudentGrades() {
         Long studentId = getStudentId();
         List<Grade> grades = gradeService.findGradeByStudent(studentId);
@@ -1968,12 +2029,13 @@ public class Menu {
         } else {
             System.out.println("Your grades:");
             for (Grade grade : grades) {
-                 course = courseService.findById(grade.getCourseId());
+                course = courseService.findById(grade.getCourseId());
                 System.out.println("Course: " + course.getCourseName() + ", Grade: " + grade.getGrade());
             }
         }
         System.out.println("grades: " + grades);
     }
+
     public void displayStudentGradesTwo() {
         Long studentId = getStudentId();
         List<Object[]> results = gradeService.findCourseNameAndGradeByStudent(studentId);
