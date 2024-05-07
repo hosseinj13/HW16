@@ -770,19 +770,34 @@ public class Menu {
                 Long id = user.getId();
                 switch (choice) {
                     case 1:
-                        if (isEmployee(id)) {
-                            loginAsEducationEmployee();
-                        }
+//                        try {
+//                            if (isEmployee(id)) {
+//                                loginAsEducationEmployee();
+//                            }
+//                        }catch (IllegalArgumentException e){
+//                            System.out.println("Error: " + e.getMessage());
+//                        }
+                        loginAsEducationEmployee();
                         break;
                     case 2:
-                        if (isStudent(id)) {
-                            loginAsStudent();
-                        }
+//                        try {
+//                            if (isStudent(id)) {
+//                                loginAsStudent();
+//                            }
+//                        }catch (IllegalArgumentException e){
+//                            System.out.println("Error: " + e.getMessage());
+//                        }
+                        loginAsStudent();
                         break;
                     case 3:
-                        if (isProfessor(id)) {
-                            loginAsProfessor();
-                        }
+//                        try {
+//                            if (isProfessor(id)) {
+//                                loginAsProfessor();
+//                            }
+//                        }catch (NullPointerException e){
+//                            System.out.println("Error: " + e.getMessage());
+//                        }
+                        loginAsProfessor();
                         break;
                     case 4:
                         System.out.println("Exiting...");
@@ -904,7 +919,7 @@ public class Menu {
         }
     }
 
-    public void loginAsStudent() {
+    public void loginAsStudent() throws Exception {
         Scanner scanner = new Scanner(System.in);
         List<Course> enrolledCourses = new ArrayList<>();
         List<Course> availableCourses = new ArrayList<>();
@@ -968,7 +983,7 @@ public class Menu {
         }
     }
 
-    public void loginAsProfessor() {
+    public void loginAsProfessor() throws Exception {
         Scanner scanner = new Scanner(System.in);
 
         int choice = 0;
@@ -1011,6 +1026,7 @@ public class Menu {
                         break;
                     case 4:
                         System.out.println("Exiting professor menu.");
+                        publicMenu();
                         return;
                     default:
                         System.out.println("Invalid choice. Please enter a valid option.");
@@ -1786,7 +1802,7 @@ public class Menu {
         return payStubBuilder.toString();
     }
 
-    public Long getCourseId() {
+    public Long getCourseId() throws Exception {
         course = null;
         try {
             System.out.println("please enter the course name: ");
@@ -1794,6 +1810,7 @@ public class Menu {
             course = courseService.findByCourseName(courseName);
         } catch (NoResultException e) {
             System.out.println("this course is not exist");
+            loginAsProfessor();
         }
         if (course != null) {
             return course.getId();
@@ -1839,7 +1856,7 @@ public class Menu {
         return null;
     }
 
-    public void registerStudentGradeByProfessor() {
+    public void registerStudentGradeByProfessor() throws Exception {
 
 //        System.out.println("Info of the student whose grade is to be entered: ");
 //        String firstName = getValidFirstName(scanner);
@@ -1946,7 +1963,7 @@ public class Menu {
         }
     }
 
-    public void enrollmentCourses() {
+    public void enrollmentCourses() throws Exception {
         Long courseId = getCourseId();
         String term = null;
         if (courseId != null) {
