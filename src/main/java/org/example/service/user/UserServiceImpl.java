@@ -2,6 +2,7 @@ package org.example.service.user;
 
 
 import org.example.base.service.BaseServiceImpl;
+import org.example.enums.UserTypes;
 import org.example.model.user.User;
 import org.example.repository.user.UserRepository;
 import org.hibernate.SessionFactory;
@@ -21,7 +22,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
     }
 
     @Override
-    public String getUserType(Long id) {
+    public UserTypes getUserType(Long id) {
         return repository.getUserType(id);
     }
 }
