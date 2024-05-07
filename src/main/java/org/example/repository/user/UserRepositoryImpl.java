@@ -2,13 +2,10 @@ package org.example.repository.user;
 
 import org.example.base.repository.BaseRepositoryImpl;
 import org.example.conncetion.SessionFactorySingleton;
-import org.example.model.user.Professor;
+import org.example.enums.UserTypes;
 import org.example.model.user.User;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-
-import java.sql.SQLException;
 
 public class UserRepositoryImpl extends BaseRepositoryImpl<User, Long> implements UserRepository {
 
@@ -31,4 +28,15 @@ public class UserRepositoryImpl extends BaseRepositoryImpl<User, Long> implement
         session.close();
         return user;
     }
+
+    @Override
+    public UserTypes getUserType(Long id) {
+        Session session = SessionFactorySingleton.getInstance().openSession();
+        Query<String> query = session.createQuery("SELECT u.user_type FROM User u WHERE u.id = :id", String.class);
+        query.setParameter("id", id);
+        String userType = query.uniqueResult();
+        session.close();
+        return UserTypes.valueOf(userType);
+    }
+
 }
