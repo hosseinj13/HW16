@@ -2,16 +2,11 @@ package org.example;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.NoResultException;
+import jakarta.validation.ConstraintViolationException;
 import org.example.conncetion.SessionFactorySingleton;
-import org.example.enums.AcademicTerm;
-import org.example.enums.CourseStatus;
-import org.example.enums.Department;
-import org.example.enums.ProfessorType;
+import org.example.enums.*;
 import org.example.model.*;
-import org.example.model.user.Employee;
-import org.example.model.user.Professor;
-import org.example.model.user.Student;
-import org.example.model.user.User;
+import org.example.model.user.*;
 import org.example.service.course.CourseService;
 import org.example.service.employee.EmployeeService;
 import org.example.service.enrollment.EnrollmentService;
@@ -33,24 +28,6 @@ import java.util.regex.Pattern;
 import static org.example.util.ApplicationContext.*;
 
 public class Menu {
-    private final Scanner scanner = new Scanner(System.in);
-
-    public static void main(String[] args) throws Exception {
-
-//        Menu userMenu = new Menu();
-//        boolean userMenuExecuted = false;
-//        while (!userMenuExecuted) {
-//            if (userMenu.userMenu()) {
-//                userMenuExecuted = true;
-//            }
-//        }
-//        if (userMenu.getSelectedOption() != 3) {
-//            Menu menu = new Menu();
-//            menu.publicMenu();
-//        }
-        Menu menu = new Menu();
-        menu.publicMenu();
-    }
 
     UserService userService = getUserService();
     CourseService courseService = getCourseService();
@@ -61,11 +38,43 @@ public class Menu {
     EnrollmentService enrollmentService = getEnrollmentService();
 
 
+    private final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws Exception {
+
+        try {
+            SecurityContextSample securityContext = new SecurityContextSample();
+            User user = new User("hossein", "javadi", "989197033530", "hosseinj13@yahoo.com", "0510028977", "hosseinj13", "h1374308N@", Department.COMPUTER_SCIENCE);
+            securityContext.signUp(user);
+            getUserService().saveOrUpdate(user);
+        }catch (ConstraintViolationException e ){
+            System.out.println("(username)=(hosseinj13) already exists." + e.getMessage());
+        }
+
+      //  securityContext.login("hosseinj13", "h1374308N@");
+
+        Menu userMenu = new Menu();
+        boolean userMenuExecuted = false;
+        while (!userMenuExecuted) {
+            if (userMenu.userMenu()) {
+                userMenuExecuted = true;
+            }
+        }
+        if (userMenu.getSelectedOption() != 3) {
+            Menu menu = new Menu();
+            menu.publicMenu();
+        }
+//        Menu menu = new Menu();
+//        menu.publicMenu();
+    }
+
+
     Professor professor = new Professor();
     Employee employee = new Employee();
     Student student = new Student();
     Course course = new Course();
     Grade grade = new Grade();
+    User user = new User();
     Enrollment enrollment = new Enrollment();
     public int getSelectedOption() {
         Scanner scanner = new Scanner(System.in);
@@ -553,10 +562,6 @@ public class Menu {
          }
          return courseList;
      }*/
-    public void assignCoursesToProfessor(List<Course> courseList, Professor professor) {
-        // professor.setCourses(courseList);
-        System.out.println("Courses assigned to professor successfully.");
-    }
     public boolean checkIfEmailExists(String email) {
         try (Session session = SessionFactorySingleton.getInstance().openSession()) {
             Query<User> query = session.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class);
@@ -663,27 +668,27 @@ public class Menu {
         while (!validInput) {
             System.out.println("********** Welcome to the Educational System **********");
             System.out.println("***************** USER AUTHENTICATION *****************");
-            System.out.println("1-SIGN UP");
-            System.out.println("2-SIGN IN");
-            System.out.println("3-EXIT");
+          //  System.out.println("1-SIGN UP");
+            System.out.println("1-SIGN IN");
+            System.out.println("2-EXIT");
             System.out.println("Choose your number: ");
 
             try {
                 int number = scanner.nextInt();
                 scanner.nextLine();
 
-                if (number < 1 || number > 3) {
+                if (number < 1 || number > 2) {
                     System.out.println("Invalid input! Please enter a number between 1 and 3.");
                 } else {
                     validInput = true;
                     switch (number) {
+//                        case 1:
+//                            //signup();
+//                            break;
                         case 1:
-                            signup();
-                            break;
-                        case 2:
                             signIn();
                             break;
-                        case 3:
+                        case 2:
                             System.out.println("exit");
                             break;
                     }
@@ -695,7 +700,24 @@ public class Menu {
         }
         return true;
     }
-    public void publicMenu() throws Exception {
+
+
+    private boolean isEmployee(Long id) {
+        String userType = userService.getUserType(id);
+        return  userType.equals(UserTypes.EMPLOYEE.name());
+    }
+
+    private boolean isStudent(Long id) {
+        String userType = userService.getUserType(id);
+        return  userType.equals(UserTypes.STUDENT.name());
+    }
+
+    private boolean isProfessor(long id) {
+        String userType = userService.getUserType(id);
+        return  userType.equals(UserTypes.PROFESSOR.name());
+    }
+
+    public boolean publicMenu() throws Exception {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         while (true) {
@@ -707,30 +729,36 @@ public class Menu {
             System.out.print("Please choose an option: ");
             try {
                 choice = scanner.nextInt();
-
+                Long id = user.getId();
                 switch (choice) {
                     case 1:
-                        loginAsEducationEmployee();
+                        if (isEmployee(id)) {
+                            loginAsEducationEmployee();
+                        }
                         break;
                     case 2:
-                        loginAsStudent();
+                        if (isStudent(id)) {
+                            loginAsStudent();
+                        }
                         break;
                     case 3:
-                        loginAsProfessor();
+                        if (isProfessor(id)) {
+                            loginAsProfessor();
+                        }
                         break;
                     case 4:
                         System.out.println("Exiting...");
-                        scanner.close();
-                        System.exit(0);
+                        return userMenu();
                     default:
                         System.out.println("Invalid choice. Please try again.");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
-                scanner.next(); // Clear the invalid input
+                scanner.next();
             }
         }
     }
+
     public void loginAsEducationEmployee() throws Exception {
         int choice = 0;
         while (true) {
