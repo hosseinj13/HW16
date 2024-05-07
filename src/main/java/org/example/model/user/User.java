@@ -8,6 +8,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.example.base.entity.BaseEntity;
 import org.example.enums.Department;
+import org.example.enums.UserTypes;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED)
+ @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "user_type")
 public class User extends BaseEntity<Long> {
     @Id
@@ -45,6 +46,7 @@ public class User extends BaseEntity<Long> {
    // @Column(unique = true)
     String email;
 
+   // UserTypes userTypes;
 
     //@Column(unique = true)
     String nationalCode;
